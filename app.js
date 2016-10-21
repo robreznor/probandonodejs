@@ -10,7 +10,7 @@ var methodOverride = require("method-override");
 
 app.use("/public",express.static('public'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true}));
 app.use(methodOverride("_method"));
 app.use(cookieSession({
 	name: "session",
@@ -21,17 +21,19 @@ app.set("view engine", "jade");
 
 app.get("/", function(req, res){
 	console.log(req.session.user_id);
-	res.render("index");
+	User.find({},function(err,user){
+		console.log(user);
+		res.render("index");
+	});
+	
 });
 
 app.get("/signup", function(req, res){
-	User.find(function(err,doc) {
 		res.render("signup");
-	})
 });
 
 app.get("/login", function(req, res){
-		res.render("login");
+	res.render("login");
 });
 
 app.post("/users", function(req, res){
